@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import AnimatedCheckbox from "./AnimatedCheckbox";
 
 interface TodoItemProps {
   todo: { id: number; todo: string; completed: boolean };
@@ -17,8 +18,8 @@ interface TodoItemProps {
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle }) => {
   const renderRightActions = (
-    progress: Animated.AnimatedInterpolation,
-    dragX: Animated.AnimatedInterpolation,
+    _progress: Animated.AnimatedInterpolation,
+    _dragX: Animated.AnimatedInterpolation,
   ) => {
     return (
       <TouchableOpacity
@@ -32,29 +33,40 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle }) => {
 
   return (
     <Swipeable renderRightActions={renderRightActions}>
-      <TouchableOpacity onPress={() => onToggle(todo.id)}>
-        <View
-          style={[styles.itemContainer, todo.completed && styles.completedItem]}
-        >
-          <Text style={styles.itemText}>{todo.todo}</Text>
-        </View>
-      </TouchableOpacity>
+      <View
+        style={[styles.itemContainer, todo.completed && styles.completedItem]}
+      >
+        <AnimatedCheckbox
+          checked={todo.completed}
+          onToggle={() => onToggle(todo.id)}
+        />
+        <Text style={[styles.itemText, todo.completed && styles.strikethrough]}>
+          {todo.todo}
+        </Text>
+      </View>
     </Swipeable>
   );
 };
 
 const styles = StyleSheet.create({
   itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     padding: 16,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderColor: "#ccc",
   },
   completedItem: {
-    backgroundColor: "#e0e0e0",
+    backgroundColor: "#f0f0f0",
   },
   itemText: {
     fontSize: 16,
+    flexShrink: 1,
+  },
+  strikethrough: {
+    textDecorationLine: "line-through",
+    color: "#888",
   },
   deleteButton: {
     backgroundColor: "red",
