@@ -1,22 +1,29 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { SafeAreaView, StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { store } from "./store";
-import TodoList from "./src/components/TodoList";
-import FlashMessage from "react-native-flash-message";
-import { AppNetworkWatcher } from "./src/components/AppNetworkWatcher";
+import HomeScreen from "./src/screens/HomeScreen";
+import CreateTodoScreen from "./src/screens/CreateTodoScreen";
+
+const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>
-        <SafeAreaView style={styles.container}>
-          <Text style={styles.title}>📋 Todo List</Text>
-          <TodoList />
-          <AppNetworkWatcher />
-          <FlashMessage position="top" />
-        </SafeAreaView>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="HomeScreen" component={HomeScreen} />
+            <Stack.Screen
+              name="CreateTodo"
+              component={CreateTodoScreen}
+              options={{ title: "Add Todo" }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       </Provider>
     </GestureHandlerRootView>
   );

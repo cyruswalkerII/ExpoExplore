@@ -14,6 +14,15 @@ const initialState: TodosState = {
   error: null,
 };
 
+interface AddOperation {
+  type: "add";
+  payload: Todo;
+}
+
+type PendingOperation =
+  | AddOperation
+  | { type: "toggle" | "delete"; id: number };
+
 export const fetchTodos = createAsyncThunk<
   Todo[],
   void,
@@ -53,6 +62,9 @@ const todosSlice = createSlice({
     deleteTodo: (state, action: PayloadAction<number>) => {
       state.todos = state.todos.filter((t) => t.id !== action.payload);
     },
+    addTodo: (state, action: PayloadAction<Todo>) => {
+      state.todos.unshift(action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -74,5 +86,5 @@ const todosSlice = createSlice({
   },
 });
 
-export const { toggleTodo, deleteTodo } = todosSlice.actions;
+export const { toggleTodo, deleteTodo, addTodo } = todosSlice.actions;
 export default todosSlice.reducer;
