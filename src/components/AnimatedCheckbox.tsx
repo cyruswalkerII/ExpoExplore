@@ -1,12 +1,10 @@
-// src/components/AnimatedCheckbox.tsx
-import React from "react";
-import { StyleSheet, Pressable } from "react-native";
+import React, { useEffect } from "react";
+import { Pressable, StyleSheet } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withTiming,
+  withSpring,
   interpolate,
-  Easing,
 } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -21,35 +19,24 @@ const AnimatedCheckbox: React.FC<AnimatedCheckboxProps> = ({
 }) => {
   const progress = useSharedValue(checked ? 1 : 0);
 
-  React.useEffect(() => {
-    progress.value = withTiming(checked ? 1 : 0, {
-      duration: 300,
-      easing: Easing.out(Easing.ease),
-    });
+  useEffect(() => {
+    progress.value = withSpring(checked ? 1 : 0);
   }, [checked]);
 
-  const boxAnimatedStyle = useAnimatedStyle(() => ({
+  const boxStyle = useAnimatedStyle(() => ({
     backgroundColor: checked ? "#4caf50" : "#e0e0e0",
-    transform: [
-      {
-        scale: interpolate(progress.value, [0, 1], [1, 1.1]),
-      },
-    ],
+    transform: [{ scale: interpolate(progress.value, [0, 1], [1, 1.1]) }],
   }));
 
-  const iconAnimatedStyle = useAnimatedStyle(() => ({
+  const iconStyle = useAnimatedStyle(() => ({
     opacity: progress.value,
-    transform: [
-      {
-        scale: interpolate(progress.value, [0, 1], [0.5, 1]),
-      },
-    ],
+    transform: [{ scale: interpolate(progress.value, [0, 1], [0.5, 1]) }],
   }));
 
   return (
     <Pressable onPress={onToggle}>
-      <Animated.View style={[styles.checkbox, boxAnimatedStyle]}>
-        <Animated.View style={iconAnimatedStyle}>
+      <Animated.View style={[styles.checkbox, boxStyle]}>
+        <Animated.View style={iconStyle}>
           <Ionicons name="checkmark" size={20} color="#fff" />
         </Animated.View>
       </Animated.View>
@@ -61,7 +48,7 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 28,
     height: 28,
-    borderRadius: 6,
+    borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 12,

@@ -1,11 +1,11 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView, StyleSheet, Text } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { store } from "./store";
 import TodoList from "./src/components/TodoList";
 import FlashMessage from "react-native-flash-message";
-import { AppNetworkWatcher } from "./src/components/AppNetworkWatcher"; // we'll create this next
+import { AppNetworkWatcher } from "./src/components/AppNetworkWatcher";
 
 const App = () => {
   return (
@@ -14,7 +14,7 @@ const App = () => {
         <SafeAreaView style={styles.container}>
           <Text style={styles.title}>📋 Todo List</Text>
           <TodoList />
-          <AppNetworkWatcher /> {/* watches and shows flash messages */}
+          <AppNetworkWatcher />
           <FlashMessage position="top" />
         </SafeAreaView>
       </Provider>

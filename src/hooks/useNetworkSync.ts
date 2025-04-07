@@ -1,4 +1,3 @@
-// src/hooks/useNetworkSync.ts
 import { useEffect, useState, useRef } from "react";
 import * as Network from "expo-network";
 import { AppDispatch } from "../../store";
@@ -7,29 +6,22 @@ import { fetchTodos } from "../redux/todosSlice";
 
 export const useNetworkSync = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const wasOffline = useRef<boolean>(false);
   const [isConnected, setIsConnected] = useState(true);
+  const wasOffline = useRef(false);
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-
-    const checkNetwork = async () => {
-      const network = await Network.getNetworkStateAsync();
-      const online = network.isConnected && network.isInternetReachable;
+    const check = async () => {
+      const state = await Network.getNetworkStateAsync();
+      const online = state.isConnected && state.isInternetReachable;
       setIsConnected(!!online);
-
-      if (wasOffline.current && online) {
-        console.log("🔁 Network restored. Syncing todos...");
-        dispatch(fetchTodos());
-      }
-
+      if (wasOffline.current && online) dispatch(fetchTodos());
       wasOffline.current = !online;
     };
 
-    intervalId = setInterval(checkNetwork, 5000);
-    checkNetwork(); // initial check
+    const interval = setInterval(check, 4000);
+    check();
 
-    return () => clearInterval(intervalId);
+    return () => clearInterval(interval);
   }, [dispatch]);
 
   return { isConnected };

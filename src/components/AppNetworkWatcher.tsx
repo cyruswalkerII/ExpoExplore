@@ -25,6 +25,7 @@ export const AppNetworkWatcher = () => {
         type: "danger",
         icon: "warning",
         duration: 3000,
+        hideOnPress: true,
       });
     } else {
       showMessage({
@@ -33,6 +34,7 @@ export const AppNetworkWatcher = () => {
         type: "success",
         icon: "success",
         duration: 2000,
+        hideOnPress: true,
       });
     }
 
