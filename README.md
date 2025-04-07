@@ -1,5 +1,7 @@
 This is a fully featured React Native Todo App built with **Expo**, **Redux Toolkit**, and **TypeScript**. It supports offline-first functionality with optimistic UI updates and automatic syncing when the device reconnects to the internet.
 
+![Screenshot 2025-04-07 at 7 11 55 AM](https://github.com/user-attachments/assets/3887af95-4e5e-4031-8c06-86b5ee630fe7)
+
 ---
 
 ## Features
@@ -90,6 +92,7 @@ yarn test
 - [ ] Persist queue in AsyncStorage
 - [ ] Show badge for offline-created todos
 - [ ] Add filter/sort/search
+
 
 ---
 
